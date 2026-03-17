@@ -1,4 +1,4 @@
-package com.ecommerce.dto;
+package com.eCommerce.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 /**
  * Data Transfer Object representing a product response.
  */
-public record ProductDto(
+public record ProductDTO(
         Long id,
         Long sellerId,
         String title,
