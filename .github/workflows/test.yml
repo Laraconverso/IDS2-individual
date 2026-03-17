@@ -36,10 +36,11 @@ jobs:
           cache: maven
 
       - name: Run Tests
+        working-directory: ./eCommerce
         env:
           DATABASE_HOST: localhost
           DATABASE_PORT: 5432
           DATABASE_NAME: db
           DATABASE_USER: admin
           DATABASE_PASSWORD: password
-        run: ./mvnw clean test
+        run: mvn clean test
