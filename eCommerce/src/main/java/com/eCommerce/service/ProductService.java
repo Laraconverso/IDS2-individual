@@ -5,6 +5,7 @@ import com.eCommerce.dto.ProductDTO;
 import com.eCommerce.dto.UpdateProductRequestDTO;
 import com.eCommerce.entity.Product;
 import com.eCommerce.exception.ResourceNotFoundException;
+import com.eCommerce.repository.CartItemRepository;
 import com.eCommerce.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CartItemRepository cartItemRepository;
 
     /**
      * Creates a new product in the catalog.
@@ -91,6 +93,7 @@ public class ProductService {
     public void deleteProduct(Long id) {
         log.info("Deleting product with ID: {}", id);
         Product product = findProductEntityById(id);
+        cartItemRepository.deleteByProductId(id);
         productRepository.delete(product);
         log.info("Product with ID: {} deleted successfully", id);
     }
