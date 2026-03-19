@@ -80,7 +80,7 @@ public class ProductService {
         product.setDescription(request.description());
         product.setPrice(request.price());
 
-        Product updatedProduct = productRepository.save(product);
+        Product updatedProduct = productRepository.saveAndFlush(product);
         log.info("Product with ID: {} updated successfully", id);
 
         return mapToDto(updatedProduct);
