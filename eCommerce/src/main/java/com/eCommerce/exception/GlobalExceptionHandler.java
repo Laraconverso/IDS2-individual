@@ -2,9 +2,13 @@ package com.eCommerce.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.net.URI;
 import java.util.stream.Collectors;
@@ -22,18 +26,23 @@ public class GlobalExceptionHandler {
      * Handles 404 Not Found errors when a resource is missing.
      */
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ProblemDetail handleResourceNotFoundException(ResourceNotFoundException ex) {
+    public ResponseEntity<ProblemDetail> handleResourceNotFoundException(ResourceNotFoundException ex, HttpServletRequest request) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
         problemDetail.setType(BLANK_TYPE);
         problemDetail.setTitle("Product Not Found");
-        return problemDetail;
+        // RFC 7807: instance should be the request URI that caused the error
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .contentType(MediaType.parseMediaType("application/problem+json"))
+                .body(problemDetail);
     }
 
     /**
      * Handles 400 Bad Request errors from validation failures (@Valid).
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ProblemDetail handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ProblemDetail> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest request) {
         // Concatenate all validation errors into a single detailed string
         String validationErrors = ex.getBindingResult()
                 .getFieldErrors()
@@ -44,6 +53,11 @@ public class GlobalExceptionHandler {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, validationErrors);
         problemDetail.setType(BLANK_TYPE);
         problemDetail.setTitle("Bad Request");
-        return problemDetail;
+        // RFC 7807: include the instance URI where the validation failed
+        problemDetail.setInstance(URI.create(request.getRequestURI()));
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.parseMediaType("application/problem+json"))
+                .body(problemDetail);
     }
 }
