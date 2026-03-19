@@ -13,5 +13,6 @@ public record CartItemDTO(
         String title,
         @JsonFormat(shape = com.fasterxml.jackson.annotation.JsonFormat.Shape.NUMBER, pattern = "0.00")
         BigDecimal unitPrice,
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
         LocalDateTime addedAt
 ) {}
