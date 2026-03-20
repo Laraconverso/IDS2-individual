@@ -247,7 +247,7 @@ make ps
 make status
 ```
 
-#### 🗑️ **Limpieza**
+#### **Limpieza**
 ```bash
 # Eliminar contenedores, volúmenes e imágenes
 make clean
@@ -259,7 +259,7 @@ make maven-clean
 make down-volumes
 ```
 
-#### ℹ️ **Información**
+#### **Información**
 ```bash
 # Ver versiones de Java y Maven
 make version
@@ -268,7 +268,7 @@ make version
 make status
 ```
 
-#### 📋 **Ayuda**
+#### **Ayuda**
 ```bash
 # Ver todos los comandos disponibles
 make help
