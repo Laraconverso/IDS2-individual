@@ -20,7 +20,7 @@
 
 ## Introducción
 
-El presente proyecto consta de la implementación de un servicio de backend para un eCommerce. El servicio expone una API REST que gestiona productos y carrito de compras, permitiendo operaciones CRUD sobre ambas entidades, con énfasis en la correcta gestión de transacciones, persistencia de datos y manejo de errores siguiendo estándares de la industria.
+El proyecto consta de la implementación de un servicio de backend para un eCommerce. El servicio expone una API REST que gestiona productos y carrito de compras, permitiendo operaciones CRUD sobre ambas entidades, con énfasis en la correcta gestión de transacciones, persistencia de datos y manejo de errores siguiendo estándares de la industria.
 
 ## Arquitectura y Decisiones Técnicas
 
@@ -32,116 +32,33 @@ La arquitectura implementada sigue un patrón de capas, organizando el proyecto 
 3. **Repositories** - Capa de acceso a datos
 4. **DTOs/Entities** - Modelos de datos
 
-El mapeo objeto-relacional se realizó mediante **JPA/Hibernate**, empleando **PostgreSQL** como base de datos relacional. El manejo de errores se implementó mediante un middleware global que sigue el estándar **RFC 7807** (Problem Details for HTTP APIs), proporcionando respuestas de error consistentes y estructuradas en formato JSON.
+El mapeo objeto relacional se realizó mediante **JPA/Hibernate**, empleando **PostgreSQL** como base de datos relacional. El manejo de errores se implementó mediante un middleware global que sigue el estándar **RFC 7807** (Problem Details for HTTP APIs), proporcionando respuestas de error consistentes y estructuradas en formato JSON.
 
 El sistema puede ser **orquestado completamente con Docker Compose**, permitiendo levantar tanto la base de datos PostgreSQL como el servicio backend en contenedores aislados, facilitando la reproducibilidad del entorno sin depender de instalaciones locales de JDK, Maven o PostgreSQL.
 
 
 ### Decisiones Técnicas Clave
 
-#### 1. **JPA/Hibernate para ORM**
-Se eligió JPA/Hibernate como framework de mapeo objeto-relacional porque:
-- Abstrae la complejidad del mapeo entre objetos Java y tablas SQL
-- Maneja automáticamente transacciones y ciclo de vida de objetos
-- Proporciona validación a través de anotaciones (`@NotNull`, `@NotBlank`, `@DecimalMin`)
-- Integración nativa con Spring Data JPA para acceso a datos
+Para armar este backend, intenté priorizar mantener el código limpio y separar bien las responsabilidades. Estas fueron las herramientas y patrones que decidí implementar:
 
-#### 2. **Patrón Repository**
-Se implementó el patrón Repository mediante `JpaRepository` para:
-- Desacoplar la lógica de negocio del acceso a datos
-- Reutilizar operaciones CRUD estándar
-- Definir consultas personalizadas (custom finder methods) como `findByUserIdOrderByAddedAtDescIdDesc()`
-
-#### 3. **DTOs (Data Transfer Objects)**
-Separación clara entre modelos internos (Entities) y representación externa (DTOs) para:
-- Evitar exposición de detalles internos de persistencia
-- Validación de entrada en el nivel de API (`@Valid`)
-- Transformación de datos sin impactar lógica de negocio
-- Control sobre qué campos se serializan en respuestas JSON
-
-#### 4. **RFC 7807 - Problem Details for HTTP APIs**
-Se implementó un manejador global de excepciones siguiendo RFC 7807 para:
-- Respuestas de error estructuradas y consistentes
-- Información clara y contextualizada en errores
-- Compatible con clientes que esperan este formato estándar de la industria
-- Mejora significativa en la experiencia del desarrollador (Developer Experience)
-
-#### 5. **Transacciones Explícitas**
-Se utilizó `@Transactional` en servicios para:
-- Garantizar atomicidad en operaciones complejas
-- `readOnly = true` en consultas para optimización de base de datos
-- Rollback automático ante excepciones
-
-#### 6. **Logging Estructurado**
-Se agregó logging con **SLF4J** a través de `@Slf4j` de Lombok para:
-- Rastreo de operaciones en tiempo real
-- Debugging y monitoreo en producción
-- Contexto claro de qué ocurre en cada endpoint
-
-#### 7. **Snapshots en Carrito**
-El carrito almacena un "snapshot" (fotografía) del estado del producto en el momento de la compra:
-- `title` y `price` se duplican en `CartItem`
-- Permite cambiar producto sin afectar historial de carrito
-- Reflection del patrón real en sistemas de e-commerce
-
-### Flujo de una Petición HTTP
-
-```
-HTTP Request
-    ↓
-CartController / ProductController
-    ↓
-@Valid Validation (DTOs)
-    ↓
-Service Layer (Lógica de Negocio)
-    ↓
-Repository Layer (JPA Queries)
-    ↓
-PostgreSQL Database
-    ↓
-Mapping a DTO
-    ↓
-ResponseWrapper<T>
-    ↓
-HTTP Response (JSON)
-```
+* **ORM y Repositorios (Spring Data JPA / Hibernate):** Decidí no ensuciar el código con SQL nativo. Usar JPA me permitió manejar el ciclo de vida de los objetos y aprovechar las validaciones de Jakarta (`@NotNull`, `@DecimalMin`) directo en las entidades. Además, al extender `JpaRepository`, me ahorré armar el CRUD básico a mano y pude resolver consultas complejas simplemente nombrando bien los métodos (como `findByUserIdOrderByAddedAtDescIdDesc`).
+* **Separación estricta con DTOs:** Me pareció fundamental no exponer las entidades de la base de datos directamente en los endpoints. Usar DTOs me dio el control total de qué datos entran y salen, permitiéndome validar los *requests* con `@Valid` en la capa de la API antes de que toquen la lógica de negocio.
+* **Manejo de Errores (RFC 7807):** Quería que la API fuera predecible. Por eso, en lugar de devolver errores genéricos o *stacktraces* horribles, armé un manejador global de excepciones que ataja cualquier problema y lo formatea siguiendo el estándar RFC 7807, devolviendo siempre un JSON estructurado y claro.
+* **Transaccionalidad (`@Transactional`):** Para proteger la integridad de la base de datos, manejé las transacciones a nivel de servicio. Marqué las consultas de solo lectura con `readOnly = true` para optimizar el rendimiento, y dejé el manejo de operaciones complejas (como borrar un producto y sus ítems del carrito) bajo transacciones atómicas para que Spring haga un *rollback* automático si algo falla.
+* **Trazabilidad con Logs:** Agregué SLF4J a través de las anotaciones de Lombok (`@Slf4j`). Tener logs estructurados de lo que pasa en los endpoints me resultó indispensable para poder debuggear el código rápido sin tener que frenar la ejecución a cada rato.
 
 ## Desafíos del Proyecto
 
-Este proyecto funcionó como un primer acercamiento formal a una arquitectura de microservicios con buenas prácticas de desarrollo profesional. La principal motivación fue no solo cumplir requisitos funcionales, sino internalizarizarlos mediante experiencia práctica con tecnologías de uso industrial.
+Este proyecto fue un desafío, durante el desarrollo, me encontré con varias decisiones arquitectónicas clave:
 
-### Desafío 1: Patrón Snapshot en Carrito
-**Problema**: Decidir cómo manejar cambios de precios en productos cuando ya están en el carrito.
+**El diseño del Carrito de Compras**
+Fue el punto que más tiempo de análisis me llevó. Al principio, la forma más intuitiva parecía ser relacionar directamente el ítem del carrito con la tabla de productos. Sin embargo, me di cuenta de que si el precio de un producto cambiaba en el catálogo, automáticamente le alteraría el total al usuario que ya lo tenía en su carrito. Para evitar esto, implementé un modelo de *Snapshot*: al momento de agregar un ítem, el sistema hace una copia estática del título y el precio. Así, el carrito mantiene su integridad histórica, tal como operan los e-commerce reales.
 
-**Solución**: Se implementó un patrón de snapshot donde `CartItem` guarda copias del `title` y `price` en el momento en que se agrega el producto. Esto asegura que:
-- El carrito refleja exactamente el estado en el que se agregó el producto
-- Cambios posteriores en el producto original no afectan items existentes en carritos
-- Es el patrón usado en sistemas reales de e-commerce
+**Manejo centralizado de Errores (RFC 7807)**
+Al tener la lógica dividida en múltiples capas, las excepciones podían saltar en cualquier lado y llegar al cliente con formatos inconsistentes. Para estandarizar esto e implementar el RFC 7807 exigido, centralicé la captura de excepciones utilizando un `@RestControllerAdvice`. Esto me permitió atrapar cualquier fallo (desde un producto no encontrado hasta un error de validación) y transformarlo en una respuesta JSON limpia, predecible y segura, sin exponer detalles internos del servidor.
 
-### Desafío 2: Gestión de Errores Escalable
-**Problema**: Diferentes excepciones en diferentes capas, sin forma consistente de representarlas al cliente.
-
-**Solución**: Se implementó un `@RestControllerAdvice` global que:
-- Captura excepciones en toda la aplicación
-- Las traduce a respuestas HTTP con formato RFC 7807
-- Proporciona contexto claro del error sin exponer detalles internos
-- Es extensible para agregar más tipos de excepciones en el futuro
-
-### Desafío 3: Mapeo de Entidades a DTOs
-**Problema**: Repetición de código al convertir entre `Entity` → `DTO` en cada servicio.
-
-**Solución**: Se implementó un patrón private helper method `mapToDto()` en cada servicio que:
-- Centraliza la lógica de transformación
-- Es reutilizable en múltiples métodos
-- Facilita refactoring futuro si la estructura de DTO cambia
-
-### Desafío 4: Transaccionalidad y Consistencia
-**Problema**: Asegurar que operaciones complejas (agregar a carrito, eliminar producto) sean atómicas.
-
-**Solución**: Se utilizó `@Transactional` junto con `saveAndFlush()` cuando es necesario para:
-- Garantizar que todos los cambios se persistan juntos
-- Realizar rollback automático si algo falla
-- Evitar estados inconsistentes en la base de datos
+**Mapeo de Datos y Transaccionalidad**
+Otro reto importante fue evitar la repetición de código y mantener la limpieza al convertir Entidades a DTOs. Lo resolví aislando esa lógica en métodos de mapeo dedicados dentro de los servicios. Por otro lado, operaciones complejas como eliminar un producto (que obliga a limpiar en cascada los ítems de los carritos afectados) me exigieron manejar la transaccionalidad de forma explícita. Usar `@Transactional` fue fundamental para garantizar que estas operaciones fueran atómicas: si algo falla en el medio del proceso, la base de datos hace un *rollback* completo y evita quedar en un estado inconsistente.
 
 ## Pre-requisitos
 
@@ -158,16 +75,20 @@ Solo requiere:
 - **Docker** (v20.10+)
 - **Docker Compose** (v2.0+)
 
-Esta opción es **altamente recomendada** porque:
-- No requiere instalaciones adicionales
-- Garantiza consistencia entre ambientes
-- Aísla dependencias en contenedores
-- Simula más fielmente un entorno de producción
 
 **Verificar instalación**:
 ```bash
 docker --version
 docker compose version
+```
+
+### Configuración de Variables de Entorno
+
+El proyecto utiliza un archivo `.env` en la raíz para centralizar la configuración de todas las variables de entorno.
+
+#### Clonar archivo de ejemplo 
+```bash
+cp .env.example .env
 ```
 
 ## Lenguaje y Tecnologías Utilizadas
@@ -185,7 +106,7 @@ El proyecto está desarrollado en **Java 25** usando **Spring Boot 4.0.3** con l
 
 ## Inicio Rápido con Makefile
 
-El proyecto incluye un `Makefile` que facilita la ejecución de comandos comunes. Esta es la forma más recomendada y sencilla de trabajar con el proyecto.
+El proyecto incluye un `Makefile` que facilita la ejecución de comandos comunes. 
 
 ### Comandos Disponibles
 
