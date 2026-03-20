@@ -13,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -37,7 +39,7 @@ public class ProductService {
                 .sellerId(request.sellerId())
                 .title(request.title())
                 .description(request.description())
-                .price(request.price())
+                .price(roundPrice(request.price()))
                 .build();
 
         Product savedProduct = productRepository.save(product);
@@ -78,7 +80,7 @@ public class ProductService {
 
         product.setTitle(request.title());
         product.setDescription(request.description());
-        product.setPrice(request.price());
+        product.setPrice(roundPrice(request.price()));
 
         Product updatedProduct = productRepository.saveAndFlush(product);
         log.info("Product with ID: {} updated successfully", id);
@@ -122,5 +124,15 @@ public class ProductService {
                 product.getCreatedAt(),
                 product.getUpdatedAt()
         );
+    }
+
+    /**
+     * Rounds a BigDecimal price to 2 decimal places using HALF_UP rounding.
+     *
+     * @param price the price to round
+     * @return the rounded price with scale 2
+     */
+    private BigDecimal roundPrice(BigDecimal price) {
+        return price.setScale(2, RoundingMode.HALF_UP);
     }
 }

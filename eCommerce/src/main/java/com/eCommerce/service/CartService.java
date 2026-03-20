@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -64,7 +65,7 @@ public class CartService {
                 .userId(userId)
                 .productId(product.getId())
                 .title(product.getTitle())
-                .unitPrice(product.getPrice()) // Snapshot taken here
+                .unitPrice(roundPrice(product.getPrice()))
                 .build();
 
         CartItem savedItem = cartItemRepository.save(cartItem);
@@ -110,5 +111,15 @@ public class CartService {
                 item.getUnitPrice(),
                 item.getAddedAt()
         );
+    }
+
+    /**
+     * Rounds a BigDecimal price to 2 decimal places using HALF_UP rounding.
+     *
+     * @param price the price to round
+     * @return the rounded price with scale 2
+     */
+    private BigDecimal roundPrice(BigDecimal price) {
+        return price.setScale(2, RoundingMode.HALF_UP);
     }
 }
