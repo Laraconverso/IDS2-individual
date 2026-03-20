@@ -1,0 +1,2389 @@
+{
+	"info": {
+		"_postman_id": "43d691fc-e1da-451b-8882-bc1def782c93",
+		"name": "eCommerce Products Service API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18573401"
+	},
+	"item": [
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "{id}",
+					"item": [
+						{
+							"name": "Retrieve a product by ID",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8345"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Product retrieved successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"id\": 2565,\n    \"sellerId\": 7993,\n    \"title\": \"string\",\n    \"description\": \"string\",\n    \"price\": 9538.6900178282,\n    \"createdAt\": \"2007-10-28T01:36:07.172Z\",\n    \"updatedAt\": \"1964-08-09T20:14:02.257Z\"\n  }\n}"
+								},
+								{
+									"name": "Product not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/problem+json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Retrieve a product by ID Copy",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8345"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Product retrieved successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"id\": 2565,\n    \"sellerId\": 7993,\n    \"title\": \"string\",\n    \"description\": \"string\",\n    \"price\": 9538.6900178282,\n    \"createdAt\": \"2007-10-28T01:36:07.172Z\",\n    \"updatedAt\": \"1964-08-09T20:14:02.257Z\"\n  }\n}"
+								},
+								{
+									"name": "Product not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/problem+json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Full update of a product by ID",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8345"
+										}
+									]
+								},
+								"description": "Replaces all mutable fields of a product. All fields in the request body are required."
+							},
+							"response": [
+								{
+									"name": "Product updated successfully",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"id\": 2565,\n    \"sellerId\": 7993,\n    \"title\": \"string\",\n    \"description\": \"string\",\n    \"price\": 9538.6900178282,\n    \"createdAt\": \"2007-10-28T01:36:07.172Z\",\n    \"updatedAt\": \"1964-08-09T20:14:02.257Z\"\n  }\n}"
+								},
+								{
+									"name": "Bad request error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/problem+json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+								},
+								{
+									"name": "Product not found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/problem+json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Full update of a product by ID Copy",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8345"
+										}
+									]
+								},
+								"description": "Replaces all mutable fields of a product. All fields in the request body are required."
+							},
+							"response": [
+								{
+									"name": "Product updated successfully",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"id\": 2565,\n    \"sellerId\": 7993,\n    \"title\": \"string\",\n    \"description\": \"string\",\n    \"price\": 9538.6900178282,\n    \"createdAt\": \"2007-10-28T01:36:07.172Z\",\n    \"updatedAt\": \"1964-08-09T20:14:02.257Z\"\n  }\n}"
+								},
+								{
+									"name": "Bad request error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/problem+json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+								},
+								{
+									"name": "Product not found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/problem+json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Full update of a product by ID Copy",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8345"
+										}
+									]
+								},
+								"description": "Replaces all mutable fields of a product. All fields in the request body are required."
+							},
+							"response": [
+								{
+									"name": "Product updated successfully",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"id\": 2565,\n    \"sellerId\": 7993,\n    \"title\": \"string\",\n    \"description\": \"string\",\n    \"price\": 9538.6900178282,\n    \"createdAt\": \"2007-10-28T01:36:07.172Z\",\n    \"updatedAt\": \"1964-08-09T20:14:02.257Z\"\n  }\n}"
+								},
+								{
+									"name": "Bad request error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/problem+json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+								},
+								{
+									"name": "Product not found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/problem+json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 1240.0455715043404\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete a product by ID",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/problem+json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8345"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Product deleted successfully",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "Product not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/problem+json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete a product by ID Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/problem+json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "8345"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Product deleted successfully",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "15"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "Product not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/problem+json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/products/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"products",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/problem+json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Create a new product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sellerId\": 3628,\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 4776.140059953273\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Product created successfully",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sellerId\": 3628,\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 4776.140059953273\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": {\n    \"id\": 2565,\n    \"sellerId\": 7993,\n    \"title\": \"string\",\n    \"description\": \"string\",\n    \"price\": 9538.6900178282,\n    \"createdAt\": \"2007-10-28T01:36:07.172Z\",\n    \"updatedAt\": \"1964-08-09T20:14:02.257Z\"\n  }\n}"
+						},
+						{
+							"name": "Bad request error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/problem+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sellerId\": 3628,\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 4776.140059953273\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/problem+json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Create a new product Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sellerId\": 3628,\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 4776.140059953273\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Product created successfully",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sellerId\": 3628,\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 4776.140059953273\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": {\n    \"id\": 2565,\n    \"sellerId\": 7993,\n    \"title\": \"string\",\n    \"description\": \"string\",\n    \"price\": 9538.6900178282,\n    \"createdAt\": \"2007-10-28T01:36:07.172Z\",\n    \"updatedAt\": \"1964-08-09T20:14:02.257Z\"\n  }\n}"
+						},
+						{
+							"name": "Bad request error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/problem+json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"sellerId\": 3628,\n  \"title\": \"string\",\n  \"description\": \"string\",\n  \"price\": 4776.140059953273\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/problem+json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Retrieve all products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Returns all products ordered by id ascending"
+					},
+					"response": [
+						{
+							"name": "A list of products",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"products"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"data\": [\n    {\n      \"id\": 1896,\n      \"sellerId\": 3324,\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"price\": 6192.038607419751,\n      \"createdAt\": \"2018-07-17T02:41:09.231Z\",\n      \"updatedAt\": \"1949-08-23T14:49:00.374Z\"\n    },\n    {\n      \"id\": 8689,\n      \"sellerId\": 8440,\n      \"title\": \"string\",\n      \"description\": \"string\",\n      \"price\": 978.3582660906422,\n      \"createdAt\": \"1977-03-16T20:01:05.364Z\",\n      \"updatedAt\": \"1950-03-04T13:24:03.120Z\"\n    }\n  ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "cart",
+			"item": [
+				{
+					"name": "{userId}",
+					"item": [
+						{
+							"name": "items",
+							"item": [
+								{
+									"name": "{cartItemId}",
+									"item": [
+										{
+											"name": "Delete an item from a user's cart",
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/problem+json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/cart/:userId/items/:cartItemId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														":userId",
+														"items",
+														":cartItemId"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "8345"
+														},
+														{
+															"key": "cartItemId",
+															"value": "8345"
+														}
+													]
+												},
+												"description": "Removes a specific item from the user's cart. The item must belong to the specified user."
+											},
+											"response": [
+												{
+													"name": "Cart item deleted successfully",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/cart/:userId/items/:cartItemId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"cart",
+																":userId",
+																"items",
+																":cartItemId"
+															],
+															"variable": [
+																{
+																	"key": "userId",
+																	"value": "8345"
+																},
+																{
+																	"key": "cartItemId",
+																	"value": "8345"
+																}
+															]
+														}
+													},
+													"status": "No Content",
+													"code": 204,
+													"_postman_previewlanguage": "text",
+													"header": [],
+													"cookie": [],
+													"body": null
+												},
+												{
+													"name": "Cart item not found in user's cart",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/problem+json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/cart/:userId/items/:cartItemId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"cart",
+																":userId",
+																"items",
+																":cartItemId"
+															],
+															"variable": [
+																{
+																	"key": "userId",
+																	"value": "8345"
+																},
+																{
+																	"key": "cartItemId",
+																	"value": "8345"
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/problem+json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+												}
+											]
+										},
+										{
+											"name": "Delete an item from a user's cart Copy",
+											"request": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/problem+json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/cart/:userId/items/:cartItemId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														":userId",
+														"items",
+														":cartItemId"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "8345"
+														},
+														{
+															"key": "cartItemId",
+															"value": "8345"
+														}
+													]
+												},
+												"description": "Removes a specific item from the user's cart. The item must belong to the specified user."
+											},
+											"response": [
+												{
+													"name": "Cart item deleted successfully",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/cart/:userId/items/:cartItemId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"cart",
+																":userId",
+																"items",
+																":cartItemId"
+															],
+															"variable": [
+																{
+																	"key": "userId",
+																	"value": "8345"
+																},
+																{
+																	"key": "cartItemId",
+																	"value": "8345"
+																}
+															]
+														}
+													},
+													"status": "No Content",
+													"code": 204,
+													"_postman_previewlanguage": "text",
+													"header": [],
+													"cookie": [],
+													"body": null
+												},
+												{
+													"name": "Cart item not found in user's cart",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/problem+json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/cart/:userId/items/:cartItemId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"cart",
+																":userId",
+																"items",
+																":cartItemId"
+															],
+															"variable": [
+																{
+																	"key": "userId",
+																	"value": "8345"
+																},
+																{
+																	"key": "cartItemId",
+																	"value": "8345"
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/problem+json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "Add product to user's cart",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"productId\": 925\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cart/:userId/items",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cart",
+												":userId",
+												"items"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "8345"
+												}
+											]
+										},
+										"description": "Adds a new cart item with a snapshot of the product's current price and title. Each POST creates an independent item (duplicates allowed)."
+									},
+									"response": [
+										{
+											"name": "Product added to cart successfully",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"productId\": 925\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/cart/:userId/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														":userId",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "8345"
+														}
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"data\": {\n    \"id\": 5846,\n    \"productId\": 7722,\n    \"title\": \"string\",\n    \"unitPrice\": 7271.408892466075,\n    \"addedAt\": \"2008-12-27T18:12:46.674Z\"\n  }\n}"
+										},
+										{
+											"name": "Bad request error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/problem+json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"productId\": 925\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/cart/:userId/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														":userId",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "8345"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+										},
+										{
+											"name": "Product not found",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/problem+json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"productId\": 925\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/cart/:userId/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														":userId",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "8345"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Add product to user's cart Copy",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"productId\": 925\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cart/:userId/items",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cart",
+												":userId",
+												"items"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "8345"
+												}
+											]
+										},
+										"description": "Adds a new cart item with a snapshot of the product's current price and title. Each POST creates an independent item (duplicates allowed)."
+									},
+									"response": [
+										{
+											"name": "Product added to cart successfully",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"productId\": 925\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/cart/:userId/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														":userId",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "8345"
+														}
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"data\": {\n    \"id\": 5846,\n    \"productId\": 7722,\n    \"title\": \"string\",\n    \"unitPrice\": 7271.408892466075,\n    \"addedAt\": \"2008-12-27T18:12:46.674Z\"\n  }\n}"
+										},
+										{
+											"name": "Bad request error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/problem+json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"productId\": 925\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/cart/:userId/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														":userId",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "8345"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+										},
+										{
+											"name": "Product not found",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/problem+json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"productId\": 925\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/cart/:userId/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														":userId",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "8345"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Add product to user's cart Copy 2",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"productId\": 925\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cart/:userId/items",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cart",
+												":userId",
+												"items"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "8345"
+												}
+											]
+										},
+										"description": "Adds a new cart item with a snapshot of the product's current price and title. Each POST creates an independent item (duplicates allowed)."
+									},
+									"response": [
+										{
+											"name": "Product added to cart successfully",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"productId\": 925\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/cart/:userId/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														":userId",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "8345"
+														}
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"data\": {\n    \"id\": 5846,\n    \"productId\": 7722,\n    \"title\": \"string\",\n    \"unitPrice\": 7271.408892466075,\n    \"addedAt\": \"2008-12-27T18:12:46.674Z\"\n  }\n}"
+										},
+										{
+											"name": "Bad request error",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/problem+json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"productId\": 925\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/cart/:userId/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														":userId",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "8345"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+										},
+										{
+											"name": "Product not found",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/problem+json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"productId\": 925\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/cart/:userId/items",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"cart",
+														":userId",
+														"items"
+													],
+													"variable": [
+														{
+															"key": "userId",
+															"value": "8345"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/problem+json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"type\": \"about:blank\",\n  \"title\": \"string\",\n  \"status\": 8074,\n  \"detail\": \"string\",\n  \"instance\": \"string\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Get user's cart",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/cart/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "8345"
+										}
+									]
+								},
+								"description": "Returns the user's cart with items ordered by addedAt descending, then id descending. An unknown userId returns an empty cart."
+							},
+							"response": [
+								{
+									"name": "User cart retrieved successfully",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/cart/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cart",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"data\": {\n    \"userId\": 7675,\n    \"items\": [\n      {\n        \"id\": 8653,\n        \"productId\": 6348,\n        \"title\": \"string\",\n        \"unitPrice\": 2757.61571266545,\n        \"addedAt\": \"1954-09-15T17:31:15.197Z\"\n      },\n      {\n        \"id\": 1219,\n        \"productId\": 5524,\n        \"title\": \"string\",\n        \"unitPrice\": 9258.13036293811,\n        \"addedAt\": \"1960-12-07T06:41:06.559Z\"\n      }\n    ],\n    \"totalPrice\": 8596.735646015974\n  }\n}"
+								}
+							]
+						},
+						{
+							"name": "Wipe a user's cart",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cart/:userId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cart",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "8345"
+										}
+									]
+								},
+								"description": "Removes all items from the user's cart. Idempotent - wiping an empty or non-existent cart returns 204."
+							},
+							"response": [
+								{
+									"name": "Cart wiped successfully",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/cart/:userId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cart",
+												":userId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "8345"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [],
+									"cookie": [],
+									"body": null
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "/"
+		}
+	]
+}
