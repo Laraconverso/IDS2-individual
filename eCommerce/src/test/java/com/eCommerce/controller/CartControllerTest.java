@@ -12,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
-
 
 import java.math.BigDecimal;
 
@@ -28,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
 class CartControllerTest {
 
     @Autowired
@@ -51,7 +48,6 @@ class CartControllerTest {
         cartItemRepository.deleteAll();
         productRepository.deleteAll();
 
-        // Creamos un producto de prueba en la BD para poder agregarlo al carrito
         testProduct = Product.builder()
                 .sellerId(100L)
                 .title("Teclado Mecánico")
@@ -62,7 +58,7 @@ class CartControllerTest {
     }
 
     @Test
-    @DisplayName("POST /cart/{userId}/items - E2E: Should add product and take price snapshot")
+    @DisplayName("POST /cart/{userId}/items - Success: Add product and verify snapshot")
     void addItemToCart_Success() throws Exception {
         AddCartRequestDTO request = new AddCartRequestDTO(testProduct.getId());
 
@@ -73,17 +69,89 @@ class CartControllerTest {
                 .andExpect(jsonPath("$.data.id", notNullValue()))
                 .andExpect(jsonPath("$.data.productId", is(testProduct.getId().intValue())))
                 .andExpect(jsonPath("$.data.title", is("Teclado Mecánico")))
-                .andExpect(jsonPath("$.data.unitPrice", is(50.00)));
+                .andExpect(jsonPath("$.data.unitPrice", is(50.00)))
+                .andExpect(jsonPath("$.data.addedAt", notNullValue()));
     }
 
     @Test
-    @DisplayName("GET /cart/{userId} - E2E: Should return cart with calculated total price")
+    @DisplayName("POST /cart/{userId}/items - Validation: Missing productId returns 400")
+    void addItemToCart_MissingProductId_Returns400() throws Exception {
+        mockMvc.perform(post("/cart/" + USER_ID + "/items")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"productId\": null}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.type", is("about:blank")))
+                .andExpect(jsonPath("$.detail", containsString("productId")));
+    }
+
+    @Test
+    @DisplayName("POST /cart/{userId}/items - Error 404: Non-existent product returns RFC 7807")
+    void addItemToCart_ProductNotFound_Returns404() throws Exception {
+        AddCartRequestDTO request = new AddCartRequestDTO(9999L);
+
+        mockMvc.perform(post("/cart/" + USER_ID + "/items")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isNotFound())
+                .andExpect(header().string("Content-Type", "application/problem+json"))
+                .andExpect(jsonPath("$.type", is("about:blank")))
+                .andExpect(jsonPath("$.title", is("Product Not Found")))
+                .andExpect(jsonPath("$.detail", containsString("Product with ID 9999 not found")))
+                .andExpect(jsonPath("$.instance", containsString("/cart")));
+    }
+
+    @Test
+    @DisplayName("POST /cart/{userId}/items - Snapshot: Price not affected by product price change")
+    void addItemToCart_SnapshotPreservesPrice() throws Exception {
+        AddCartRequestDTO request = new AddCartRequestDTO(testProduct.getId());
+
+        // Add product at original price (50.00)
+        mockMvc.perform(post("/cart/" + USER_ID + "/items")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.data.unitPrice", is(50.00)));
+
+        // Change product price
+        testProduct.setPrice(new BigDecimal("100.00"));
+        productRepository.save(testProduct);
+
+        // Verify cart still has original price
+        mockMvc.perform(get("/cart/" + USER_ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.items[0].unitPrice", is(50.00)));
+    }
+
+    @Test
+    @DisplayName("POST /cart/{userId}/items - Duplicates: Same product can be added multiple times")
+    void addItemToCart_DuplicatesAllowed() throws Exception {
+        AddCartRequestDTO request = new AddCartRequestDTO(testProduct.getId());
+
+        // Add product first time
+        mockMvc.perform(post("/cart/" + USER_ID + "/items")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated());
+
+        // Add same product again
+        mockMvc.perform(post("/cart/" + USER_ID + "/items")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isCreated());
+
+        // Verify both items exist
+        mockMvc.perform(get("/cart/" + USER_ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.items", hasSize(2)));
+    }
+
+    @Test
+    @DisplayName("GET /cart/{userId} - Success: Return cart with items and calculated total")
     void getCart_WithItems_ReturnsCalculatedTotal() throws Exception {
-        // Agregamos el producto dos veces al carrito manualmente en la BD
         CartItem item1 = CartItem.builder().userId(USER_ID).productId(testProduct.getId())
-                .title("T1").unitPrice(new BigDecimal("10.00")).build();
+                .title("Item 1").unitPrice(new BigDecimal("10.00")).build();
         CartItem item2 = CartItem.builder().userId(USER_ID).productId(testProduct.getId())
-                .title("T2").unitPrice(new BigDecimal("20.50")).build();
+                .title("Item 2").unitPrice(new BigDecimal("20.50")).build();
         cartItemRepository.save(item1);
         cartItemRepository.save(item2);
 
@@ -91,12 +159,34 @@ class CartControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.userId", is(USER_ID.intValue())))
                 .andExpect(jsonPath("$.data.items", hasSize(2)))
-                // 10.00 + 20.50 = 30.50
                 .andExpect(jsonPath("$.data.totalPrice", is(30.50)));
     }
 
     @Test
-    @DisplayName("GET /cart/{userId} - E2E: Unknown user should return empty cart with total 0")
+    @DisplayName("GET /cart/{userId} - Ordering: Items ordered by addedAt DESC, id DESC")
+    void getCart_ItemsOrdering() throws Exception {
+        CartItem item1 = CartItem.builder().userId(USER_ID).productId(testProduct.getId())
+                .title("First").unitPrice(new BigDecimal("10.00")).build();
+        CartItem item2 = CartItem.builder().userId(USER_ID).productId(testProduct.getId())
+                .title("Second").unitPrice(new BigDecimal("20.00")).build();
+        CartItem item3 = CartItem.builder().userId(USER_ID).productId(testProduct.getId())
+                .title("Third").unitPrice(new BigDecimal("30.00")).build();
+
+        cartItemRepository.save(item1);
+        cartItemRepository.save(item2);
+        cartItemRepository.save(item3);
+
+        mockMvc.perform(get("/cart/" + USER_ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.items", hasSize(3)))
+                // Last added should be first (descending order)
+                .andExpect(jsonPath("$.data.items[0].title", is("Third")))
+                .andExpect(jsonPath("$.data.items[1].title", is("Second")))
+                .andExpect(jsonPath("$.data.items[2].title", is("First")));
+    }
+
+    @Test
+    @DisplayName("GET /cart/{userId} - Empty cart: Unknown user returns empty cart with totalPrice 0")
     void getCart_EmptyCart_ReturnsTotalZero() throws Exception {
         mockMvc.perform(get("/cart/999"))
                 .andExpect(status().isOk())
@@ -106,21 +196,116 @@ class CartControllerTest {
     }
 
     @Test
-    @DisplayName("E2E CASCADE DELETE: Deleting a product must remove it from all carts")
-    void productDeletion_CascadesToCartItems() throws Exception {
-        // 1. Agregamos el ítem al carrito
+    @DisplayName("DELETE /cart/{userId}/items/{cartItemId} - Success: Remove item and return 204")
+    void removeItemFromCart_Success() throws Exception {
         CartItem item = CartItem.builder().userId(USER_ID).productId(testProduct.getId())
-                .title("Item a borrar").unitPrice(new BigDecimal("50.00")).build();
-        cartItemRepository.save(item);
+                .title("Item to remove").unitPrice(new BigDecimal("50.00")).build();
+        CartItem saved = cartItemRepository.save(item);
 
-        // 2. Simulamos la llamada a la API de PRODUCTOS para borrar el producto
-        mockMvc.perform(delete("/products/" + testProduct.getId()))
+        mockMvc.perform(delete("/cart/" + USER_ID + "/items/" + saved.getId()))
                 .andExpect(status().isNoContent());
 
-        // 3. Verificamos en la API del CARRITO que el ítem desapareció automáticamente
+        mockMvc.perform(get("/cart/" + USER_ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.items", hasSize(0)));
+    }
+
+    @Test
+    @DisplayName("DELETE /cart/{userId}/items/{cartItemId} - Validation: Item must belong to user")
+    void removeItemFromCart_WrongUser_Returns404() throws Exception {
+        CartItem item = CartItem.builder().userId(USER_ID).productId(testProduct.getId())
+                .title("Item").unitPrice(new BigDecimal("50.00")).build();
+        CartItem saved = cartItemRepository.save(item);
+
+        // Try to delete from different user
+        mockMvc.perform(delete("/cart/999/items/" + saved.getId()))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.type", is("about:blank")))
+                .andExpect(jsonPath("$.detail", containsString("Cart item not found")));
+    }
+
+    @Test
+    @DisplayName("DELETE /cart/{userId}/items/{cartItemId} - Error 404: Non-existent item")
+    void removeItemFromCart_NotFound_Returns404() throws Exception {
+        mockMvc.perform(delete("/cart/" + USER_ID + "/items/9999"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.type", is("about:blank")))
+                .andExpect(jsonPath("$.detail", containsString("not found")));
+    }
+
+    @Test
+    @DisplayName("DELETE /cart/{userId} - Success: Wipe all items and return 204")
+    void wipeCart_Success() throws Exception {
+        CartItem item1 = CartItem.builder().userId(USER_ID).productId(testProduct.getId())
+                .title("Item 1").unitPrice(new BigDecimal("10.00")).build();
+        CartItem item2 = CartItem.builder().userId(USER_ID).productId(testProduct.getId())
+                .title("Item 2").unitPrice(new BigDecimal("20.00")).build();
+        cartItemRepository.save(item1);
+        cartItemRepository.save(item2);
+
+        mockMvc.perform(delete("/cart/" + USER_ID))
+                .andExpect(status().isNoContent());
+
         mockMvc.perform(get("/cart/" + USER_ID))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.items", hasSize(0)))
                 .andExpect(jsonPath("$.data.totalPrice", is(0)));
+    }
+
+    @Test
+    @DisplayName("DELETE /cart/{userId} - Idempotent: Wiping empty cart returns 204")
+    void wipeCart_EmptyCart_Idempotent() throws Exception {
+        mockMvc.perform(delete("/cart/999"))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("CASCADE DELETE: Deleting product removes it from all user carts")
+    void productDeletion_CascadesToCartItems() throws Exception {
+        CartItem item = CartItem.builder().userId(USER_ID).productId(testProduct.getId())
+                .title("Item in cart").unitPrice(new BigDecimal("50.00")).build();
+        cartItemRepository.save(item);
+
+        // Verify item exists
+        mockMvc.perform(get("/cart/" + USER_ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.items", hasSize(1)));
+
+        // Delete the product via Products API
+        mockMvc.perform(delete("/products/" + testProduct.getId()))
+                .andExpect(status().isNoContent());
+
+        // Verify item was automatically deleted
+        mockMvc.perform(get("/cart/" + USER_ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.items", hasSize(0)))
+                .andExpect(jsonPath("$.data.totalPrice", is(0)));
+    }
+
+    @Test
+    @DisplayName("CASCADE DELETE: Multiple users - only product's items deleted")
+    void cascadeDelete_MultipleUsers() throws Exception {
+        Long otherUserId = 2L;
+
+        // Add items to multiple users' carts
+        CartItem item1 = CartItem.builder().userId(USER_ID).productId(testProduct.getId())
+                .title("Item").unitPrice(new BigDecimal("50.00")).build();
+        CartItem item2 = CartItem.builder().userId(otherUserId).productId(testProduct.getId())
+                .title("Item").unitPrice(new BigDecimal("50.00")).build();
+        cartItemRepository.save(item1);
+        cartItemRepository.save(item2);
+
+        // Delete product
+        mockMvc.perform(delete("/products/" + testProduct.getId()))
+                .andExpect(status().isNoContent());
+
+        // Verify both users' carts are now empty
+        mockMvc.perform(get("/cart/" + USER_ID))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.items", hasSize(0)));
+
+        mockMvc.perform(get("/cart/" + otherUserId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.items", hasSize(0)));
     }
 }
