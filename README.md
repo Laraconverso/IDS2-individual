@@ -307,35 +307,13 @@ Test específico:
 ```bash
 ./mvnw test -Dtest=CartControllerTest#addItemToCart_Success
 ```
-
-
 ## Mejoras a la Solución
 
-Hay varios aspectos que podrían mejorarse en versiones futuras:
-
-### 1. **Filtros y Búsqueda en Productos**
-Actualmente, `getAllProducts()` retorna todos los productos. Una mejora sería:
-- Agregar búsqueda por nombre/descripción
-- Nuevos filtros por ejemplo: filtrado por rango de precio
-
-### 2. **Persistencia de Órdenes de Compra**
-Actualmente, el carrito es efímero. Una mejora sería:
-- Entity `Order` que guarda snapshot del carrito en un momento
-- Historial de compras por usuario
-- Estados de orden (pendiente, completada, cancelada)
-
-### 3. **Autenticación y Autorización**
-El proyecto no incluye seguridad. Se podria agregar una capa de seguridad usando:
-- Spring Security con JWT tokens
-- Separación de roles (admin, customer)
-
-### 4. **Caching**
-Para mejorar performance:
-- Spring Cache con Redis para productos consultados frecuentemente
-
-### 5. **Métricas y Monitoreo**
-- Exponer métricas de business (productos creados, carritos llenos, etc.)
-- Integración con Grafana
+Hay algunas cosas que me gustaría sumarle a la arquitectura para acercarla a un entorno productivo un poco mas real:
+* Paginación y Filtros: Actualmente, pedir la lista de productos trae todos los registros de golpe. A medida que el catálogo crezca, esto va a traer problemas de memoria y red. Me gustaría agregarle paginación y parámetros en la URL para poder buscar por texto o filtrar por rango de precio directamente desde la base de datos.
+* Historial de Órdenes (Checkout): Hoy el carrito es completamente efímero. El paso lógico sería crear una entidad `Order` (Orden de Compra) para que, al momento de "pagar", ese carrito se convierta en un registro histórico con estados fijos (Pendiente, Pagada, Cancelada) y le quede guardado en el perfil al usuario.
+* Seguridad y Roles: El sistema ahora asume que el cliente que consume la API tiene permiso para todo. Faltaría integrar Spring Security con tokens JWT para diferenciar roles: que los usuarios normales solo puedan gestionar su propio carrito, y que exista un rol de vendedor/administrador exclusivo para crear o borrar productos.
+* Performance y Monitoreo: Para optimizar las consultas, sumaría Redis como caché para el catálogo de productos, ya que es información de alta lectura y baja modificación. Por último, me encantaría exponer las métricas del negocio usando Actuator para armar un buen dashboard visual en Grafana.
 
 ## CI/CD y GitHub Actions
 
