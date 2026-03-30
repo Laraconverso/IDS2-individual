@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import java.math.RoundingMode;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -51,8 +54,9 @@ public class CartItem {
 
     /**
      * Snapshot of the product's price at the time it was added.
+     * Uses NUMERIC(19,2) to support large monetary values without overflow.
      */
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal unitPrice;
 
     /**
@@ -61,4 +65,13 @@ public class CartItem {
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime addedAt;
+
+
+    @PrePersist
+    @PreUpdate
+    public void formatPrice() {
+        if (this.unitPrice != null) {
+            this.unitPrice = this.unitPrice.setScale(2, RoundingMode.HALF_UP);
+        }
+    }
 }

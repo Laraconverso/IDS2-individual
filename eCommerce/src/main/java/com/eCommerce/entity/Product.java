@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import java.math.RoundingMode;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -57,8 +60,9 @@ public class Product {
 
     /**
      * Price of the product in USD. Must be at least 0.01.
+     * Uses NUMERIC(19,2) to support large monetary values without overflow.
      */
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal price;
 
     /**
@@ -73,4 +77,12 @@ public class Product {
      */
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    @PreUpdate
+    public void formatPrice() {
+        if (this.price != null) {
+            this.price = this.price.setScale(2, RoundingMode.HALF_UP);
+        }
+    }
 }
