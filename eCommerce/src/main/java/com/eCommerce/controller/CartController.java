@@ -6,9 +6,11 @@ import com.eCommerce.dto.CartItemDTO;
 import com.eCommerce.dto.ResponseWrapper;
 import com.eCommerce.service.CartService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/cart")
 @RequiredArgsConstructor
+@Validated
 public class CartController {
 
     private final CartService cartService;
@@ -25,7 +28,7 @@ public class CartController {
      * Retrieves a user's cart. Returns an empty cart if the user has no items.
      */
     @GetMapping("/{userId}")
-    public ResponseEntity<ResponseWrapper<CartDTO>> getCart(@PathVariable Long userId) {
+    public ResponseEntity<ResponseWrapper<CartDTO>> getCart(@PathVariable @Positive Long userId) {
         CartDTO cart = cartService.getCart(userId);
         return ResponseEntity.ok(new ResponseWrapper<>(cart));
     }
@@ -34,7 +37,7 @@ public class CartController {
      * Wipes all items from a user's cart.
      */
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> wipeCart(@PathVariable Long userId) {
+    public ResponseEntity<Void> wipeCart(@PathVariable @Positive Long userId) {
         cartService.wipeCart(userId);
         return ResponseEntity.noContent().build();
     }
@@ -44,7 +47,7 @@ public class CartController {
      */
     @PostMapping("/{userId}/items")
     public ResponseEntity<ResponseWrapper<CartItemDTO>> addItemToCart(
-            @PathVariable Long userId,
+            @PathVariable @Positive Long userId,
             @Valid @RequestBody AddCartRequestDTO request) {
         CartItemDTO createdItem = cartService.addItemToCart(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -56,8 +59,8 @@ public class CartController {
      */
     @DeleteMapping("/{userId}/items/{cartItemId}")
     public ResponseEntity<Void> removeItemFromCart(
-            @PathVariable Long userId,
-            @PathVariable Long cartItemId) {
+            @PathVariable @Positive Long userId,
+            @PathVariable @Positive Long cartItemId) {
         cartService.removeItemFromCart(userId, cartItemId);
         return ResponseEntity.noContent().build();
     }

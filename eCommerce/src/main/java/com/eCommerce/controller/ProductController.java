@@ -6,9 +6,11 @@ import com.eCommerce.dto.ResponseWrapper;
 import com.eCommerce.dto.UpdateProductRequestDTO;
 import com.eCommerce.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
+@Validated
 public class ProductController {
 
     private final ProductService productService;
@@ -47,7 +50,7 @@ public class ProductController {
      * Retrieves a single product by its ID.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseWrapper<ProductDTO>> getProductById(@PathVariable Long id) {
+    public ResponseEntity<ResponseWrapper<ProductDTO>> getProductById(@PathVariable @Positive Long id) {
         ProductDTO product = productService.getProductById(id);
         return ResponseEntity.ok(new ResponseWrapper<>(product));
     }
@@ -57,7 +60,7 @@ public class ProductController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<ResponseWrapper<ProductDTO>> updateProduct(
-            @PathVariable Long id,
+            @PathVariable @Positive Long id,
             @Valid @RequestBody UpdateProductRequestDTO request) {
         ProductDTO updatedProduct = productService.updateProduct(id, request);
         return ResponseEntity.ok(new ResponseWrapper<>(updatedProduct));
@@ -67,7 +70,7 @@ public class ProductController {
      * Deletes a product by its ID.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable @Positive Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build(); // 204 No Content, as requested
     }
