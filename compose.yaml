@@ -33,3 +33,21 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
+  app-test:
+    image: eclipse-temurin:25-jdk-alpine
+    container_name: ecommerce-test
+    working_dir: /app
+    volumes:
+      - ./eCommerce:/app
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DATABASE_HOST=db
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USER=${DATABASE_USER}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ./mvnw clean test

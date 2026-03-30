@@ -50,6 +50,9 @@ test: ## Run tests locally (requires JDK 25+)
 test-clean: ## Clean and run tests
 	cd eCommerce && ./mvnw clean test
 
+test-docker: ## Run tests inside Docker against real PostgreSQL
+	docker compose run --rm app-test
+
 maven-clean: ## Clean Maven artifacts
 	cd eCommerce && ./mvnw clean
 
