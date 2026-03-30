@@ -9,7 +9,6 @@
 - [Desafíos del Proyecto](#desafíos-del-proyecto)
 - [Pre-requisitos](#pre-requisitos)
 - [Lenguaje y Tecnologías Utilizadas](#lenguaje-y-tecnologías-utilizadas)
-- [Estructura del Proyecto](#estructura-del-proyecto)
 - [Inicio Rápido con Makefile](#inicio-rápido-con-makefile)
 - [Comandos para Construir la Imagen Docker](#comandos-para-construir-la-imagen-docker)
 - [Comandos para Ejecutar la Base de Datos](#comandos-para-ejecutar-la-base-de-datos)
@@ -17,6 +16,7 @@
 - [Testing](#testing)
 - [Mejoras a la Solución](#mejoras-a-la-solución)
 - [CI/CD y GitHub Actions](#cicd-y-github-actions)
+- [Control de cambios - Reentrega](#control-de-cambios---reentrega)
 
 ## Introducción
 
@@ -318,3 +318,73 @@ Hay algunas cosas que me gustaría sumarle a la arquitectura para acercarla a un
 ## CI/CD y GitHub Actions
 
 El proyecto incluye un pipeline de Integración Continua automatizado mediante **GitHub Actions** (`.github/workflows/test.yml`).
+
+
+## Control de Cambios - Reentrega
+
+En esta versión se aplicaron las correcciones solicitadas para mejorar la robustez y cumplir estrictamente con el contrato de la API:
+
+### 1. Gestión de Precisión Monetaria (BigDecimal)
+
+**Migración de Tipos:** Se reemplazaron todos los tipos de datos de punto flotante por `BigDecimal` en la capa de Entidades, DTOs y Servicios.
+
+**Persistencia:** En PostgreSQL, las columnas de precio se definieron como `NUMERIC(19, 2)`, permitiendo soportar valores monetarios en el rango ±9,223,372,036,854,775.99 sin riesgo de overflow.
+
+**Lógica de Redondeo:** Se implementó un `@PrePersist` y `@PreUpdate` con `RoundingMode.HALF_UP` en las entidades para asegurar que cualquier valor con excedente de decimales se redondee correctamente (ej: 123.456 → 123.46) antes de impactar la base de datos.
+
+**Validación de Persistencia:** La suite de tests se configuró para ejecutarse sobre PostgreSQL real (vía Docker o local). Esto garantiza que el comportamiento de los tipos `NUMERIC(19,2)` y el redondeo `HALF_UP` sean validados directamente por el motor relacional, eliminando falsos positivos de bases de datos en memoria.
+
+**Validación Contractual:** Para validar contra PostgreSQL real (recomendado antes de desplegar), levanta los servicios:
+```bash
+make up-db  # O: docker compose up -d db
+./mvnw test -Dspring.profiles.active=postgres
+```
+
+### 2. Hardening del Contrato HTTP
+
+**RFC 7807 Completo:** Se extendió el `GlobalExceptionHandler` con 9 handlers que cubren todos los escenarios de error (validación, tipos inválidos, media types, overflow, etc.). Todas las respuestas de error incluyen `"type": "about:blank"` y devuelven `application/problem+json`.
+
+**Deshabilitación de Coerción de Tipos:** Se configuró Jackson con `spring.jackson.deserialization.accept-float-as-int=false`. Ahora, enviar un decimal (ej: `"sellerId": 1.5` o `"productId": 97.5`) genera un **400 Bad Request** en lugar de ser silenciosamente convertido a entero.
+
+**Validación de IDs Positivos:** Se agregó `@Positive` en todos los path variables (`@PathVariable`) de los controllers, rechazando IDs negativos o cero con respuestas RFC 7807.
+
+### 3. Suite de Tests Contractuales Expandida
+Se agregaron tests para checkear completamente para que el funcionamiento de la applicaicon coincida con el contrato definido en el enunciado. 
+
+Los tests se ejecutan automáticamente con:
+```bash
+./mvnw test
+# o
+make test
+```
+
+### Prerequisitos para Ejecutar la Aplicación con Docker
+
+Para levantar la aplicación y la base de datos automáticamente:
+
+```bash
+docker compose up --build
+# o
+make up
+```
+
+**Requisitos:**
+- Docker (v20.10+)
+- Docker Compose (v2.0+)
+
+La aplicación estará disponible en `http://localhost:8080` y PostgreSQL en `localhost:5432`.
+
+**Alternativa Local (sin Docker):**
+```bash
+# Terminal 1: Levantar solo PostgreSQL
+docker compose up db
+
+# Terminal 2: Ejecutar desde IDE o terminal
+cd eCommerce
+./mvnw spring-boot:run
+```
+
+Requiere:
+- JDK 25+
+- Apache Maven 3.6+
+- PostgreSQL 15+ (o usar Docker para la BD solamente)
